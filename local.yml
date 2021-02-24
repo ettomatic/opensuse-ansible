@@ -1,5 +1,9 @@
 - hosts: localhost
   become: true
-  tasks:
-  - name: Install htop
-    zypper: name=htop
+  tasks:    
+  - name: Install basic shell utilities
+    zypper: name={{item}}
+    with_items:
+      - fish
+      - htop
+      - tmux
