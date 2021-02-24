@@ -1,11 +1,48 @@
 - hosts: localhost
   become: true
-      
-  - name: Install basic shell utilities
-    zyper:
-      name: "{{  item  }}"
-      state: present
-    loop: 
-      - fish
-      - htop
-      - tmux
+  tasks:
+    - name: Install basic shell utilities
+      zypper:
+        name: "{{  item  }}"
+        state: latest
+      loop: 
+        - fish
+        - htop
+        - tmux
+        - git
+        
+    # Enpass
+    
+    - name: sign Enpass key
+      rpm_key:
+        state: present
+        key: 'https://yum.enpass.io/RPM-GPG-KEY-enpass-signing-key'
+        
+    - name: Add Enpass repo and add its gpg key
+      zypper_repository:
+        name: enpass
+        repo: 'https://yum.enpass.io/stable/x86_64/'
+        auto_import_keys: yes
+        
+    - name: install Enpass
+      zypper:
+        name: enpass
+        state: latest
+    
+    # Crystal
+    
+    - name: setup Crystal
+      rpm_key:
+        state: present
+        key: 'http://bintray.com/user/downloadSubjectPublicKey?username=bintray'
+        
+    - name: Add Crystal repo and add its gpg key
+      zypper_repository:
+        name: crystal
+        repo: 'https://dl.bintray.com/crystal/rpm/all/x86_64/stable'
+        auto_import_keys: yes
+        
+    - name: install Crystal
+      zypper:
+        name: crystal
+        state: latest
