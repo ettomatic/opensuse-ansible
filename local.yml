@@ -1,9 +1,11 @@
 - hosts: localhost
   become: true
-  tasks:    
+      
   - name: Install basic shell utilities
-    zypper: name={{item}}
-    with_items:
+    zyper:
+      name: "{{  item  }}"
+      state: present
+    loop: 
       - fish
       - htop
       - tmux
