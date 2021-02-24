@@ -23,6 +23,7 @@
         name: enpass
         repo: 'https://yum.enpass.io/stable/x86_64/'
         auto_import_keys: yes
+        state: present
         
     - name: install Enpass
       zypper:
@@ -41,8 +42,23 @@
         name: crystal
         repo: 'https://dl.bintray.com/crystal/rpm/all/x86_64/stable'
         auto_import_keys: yes
+        state: present
         
     - name: install Crystal
       zypper:
         name: crystal
+        state: latest
+        
+        
+   # Vivaldi
+   
+    - name: Add Vivaldi repo and add its gpg key
+      zypper_repository:
+        name: vivaldi
+        repo: 'https://repo.vivaldi.com/archive/rpm/x86_64'
+        auto_import_keys: yes
+        
+    - name: install Vivaldi
+      zypper:
+        name: vivaldi-stable
         state: latest
